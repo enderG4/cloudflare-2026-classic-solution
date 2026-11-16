@@ -40,11 +40,15 @@ Run the full level-6 suite with scoring:
 ./run.sh
 ```
 
-Compile the C++ helpers:
+## Building the C++ helpers
 
 ```bash
-g++ -O2 -o compress compress.cpp
+cmake -S . -B build
+cmake --build build -j
 ```
+
+Binaries are written to `build/bin/`; `solve6b.py` finds them automatically
+(it also still accepts prebuilt copies in the repo root or `bin/`).
 
 ## Debugging
 

@@ -8,7 +8,9 @@
 __pycache__/
 *.pyc
 
-# Compiled binaries (build from the .cpp sources)
+# Compiled binaries (build with CMake into build/bin)
+/bin/
+/build/
 /compress
 /cycle2
 /cyclek

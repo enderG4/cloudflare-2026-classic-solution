@@ -7,6 +7,17 @@ from multiprocessing import Pool
 from solve4 import D, build_ring, add
 from solve6 import parse_patterns, board_lines_to_matter, build_program_for_pattern
 
+ROOT = os.path.dirname(os.path.abspath(__file__))
+
+
+def find_bin(name):
+    """Locate a helper binary: build/bin (CMake), bin/, or the repo root."""
+    for d in (os.path.join(ROOT, "build", "bin"), os.path.join(ROOT, "bin"), ROOT):
+        path = os.path.join(d, name)
+        if os.path.exists(path):
+            return path
+    return None
+
 DIRS = [D[k] for k in range(1, 7)]
 # axis (cube index) that stays constant along emitter t's beam
 AX = [next(i for i in range(3) if d[i] == 0) for d in DIRS]
@@ -714,7 +725,7 @@ def verify(geo, T, S, program, count):
     return sim.accepted >= count
 
 
-CYCLE_BIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cycle2")
+CYCLE_BIN = find_bin("cycle2")
 CYCLE_MAX_R = 5
 
 
@@ -725,7 +736,7 @@ def enc128(x):
 def cycle_program(geo, T, S, count):
     """Two configurations one tick apart that rebuild the pattern every second
     tick (or every tick when both are equal), found by exhaustive search."""
-    if geo.R > CYCLE_MAX_R or not os.path.exists(CYCLE_BIN):
+    if geo.R > CYCLE_MAX_R or not CYCLE_BIN:
         return None
     R = geo.R
     lines = [f"{2 * R - 1} {geo.n} {count}", " ".join(map(str, geo.start))]
@@ -763,7 +774,7 @@ def cycle_program(geo, T, S, count):
     return program if sim.accepted >= count else None
 
 
-CYCLEK_BIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cyclek")
+CYCLEK_BIN = find_bin("cyclek")
 CYCLEK_ITERS = 300000
 CYCLEK_KMAX = 60
 
@@ -775,7 +786,7 @@ def enc448(x):
 def cyclek_program(geo, T, S, count, kmax):
     """k-tick cycle of emitter states (found by annealing in cyclek) that
     rebuilds the pattern once per cycle; repeated until `count` matches."""
-    if kmax < 1 or not os.path.exists(CYCLEK_BIN):
+    if kmax < 1 or not CYCLEK_BIN:
         return None
     R = geo.R
     lines = [f"{2 * R - 1} {geo.n} 1 {kmax} {CYCLEK_ITERS}", " ".join(map(str, geo.start))]
@@ -833,13 +844,13 @@ def cyclek_program(geo, T, S, count, kmax):
     return program if sim.accepted >= count else None
 
 
-COMPRESS_BIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), "compress")
+COMPRESS_BIN = find_bin("compress")
 COMPRESS_MS = 8000
 
 
 def compress_program(geo, T, S, count, program):
     """Let the compress helper delete ticks from a working program and repair it."""
-    if not os.path.exists(COMPRESS_BIN):
+    if not COMPRESS_BIN:
         return None
     lines = [f"{geo.n} {len(program)} {count} {COMPRESS_MS} 7", " ".join(map(str, geo.start))]
     for t in range(6):
