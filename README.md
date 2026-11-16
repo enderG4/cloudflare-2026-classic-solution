@@ -20,7 +20,7 @@ program that reproduces the target pattern `M`.
 | `compress.cpp` | – | Shrinks a working program by delete-and-repair local search |
 | `run.sh` | 6 | Runs `solve6b.py` over all level-6 inputs, prints timings and line-count score |
 | `sandbox-level-6.html` | – | Official interactive visualizer/debugger |
-| `in_level-*`, `out_level-*` | – | Test inputs and generated outputs |
+| `tests/in_level-*`, `tests/out_level-*` | – | Test inputs and generated outputs |
 
 The PDF problem statements and the original `.zip` bundles are intentionally not
 committed (see `.gitignore`).
@@ -30,8 +30,8 @@ committed (see `.gitignore`).
 Level 1 and level 6 solvers take an input and output path:
 
 ```bash
-python3 solve.py  in_level-1_0-example.txt out_level-1_0-example.txt
-python3 solve6b.py in_level-6_2-medium.txt out_level-6_2-medium.txt
+python3 solve.py    tests/in_level-1_0-example.txt tests/out_level-1_0-example.txt
+python3 solve6b.py  tests/in_level-6_2-medium.txt tests/out_level-6_2-medium.txt
 ```
 
 Run the full level-6 suite with scoring:

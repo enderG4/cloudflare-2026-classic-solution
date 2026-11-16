@@ -18,7 +18,7 @@ score_3=0
 score_4=0
 
 # Loop through the 4 input files (1-small to 4-enormous)
-for input_file in in_level-6_[1-4]*.txt; do
+for input_file in tests/in_level-6_[1-4]*.txt; do
     # Automatically generate the matching output filename (e.g., out_level-6_1-small.txt)
     output_file="${input_file/in_/out_}"
     
