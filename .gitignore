@@ -1,0 +1,16 @@
+# Problem statements
+*.pdf
+
+# Archives (contain PDFs / duplicates of the test data)
+*.zip
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Compiled binaries (build from the .cpp sources)
+/compress
+/cycle2
+/cyclek
+/pathk
+*.o
